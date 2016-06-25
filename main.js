@@ -163,8 +163,8 @@ Teabot.prototype._getActions = function () {
 Teabot.prototype.receive = function (data) {
   this._bool || this._reinit();
 
-  if (data.inline_query) {
-    data = data.inline_query;
+  if (data.inline_query || data.callback_query) {
+    data = data.inline_query || data.callback_query;
 
     if (!data.from) {
       throw new Error('Something wrong with inline query object.');
@@ -178,6 +178,8 @@ Teabot.prototype.receive = function (data) {
     this.dialogs.inline[userId]._processing(data, this);
 
     return this.dialogs.inline[userId];
+  } else if (data.chosen_inline_result) {
+    this.queries._chosen_(data);
   } else if (data.message) {
     data = data.message;
 
@@ -233,6 +235,12 @@ Teabot.prototype.inlineQuery = function (data, callback) {
   } else {
     throw new TypeError('Query must be a string or an array.');
   }
+
+  return this;
+};
+
+Teabot.prototype.inlineQueryChosen = function (callback) {
+  this.queries._chosen_ = callback;
 
   return this;
 };

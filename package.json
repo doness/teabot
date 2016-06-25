@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "matcher": "^0.1.1",
-    "tg-yarl": "~1.2.0"
+    "tg-yarl": "git+https://git@github.com/inDream/tg-yarl.git"
   },
   "license": "MIT"
 }
